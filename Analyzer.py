@@ -1,4 +1,3 @@
-
 inputfile = open("list.txt", "r")
 countryFrequency = {}
 countryRequestFrequency = {}

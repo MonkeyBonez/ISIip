@@ -1,5 +1,7 @@
 from geoip import geolite2
 import socket
+import pyasn
+asndb = pyasn.pyasn('ipasn_db')
 outputfile = open("list.txt", "w")
 inputfile = open("reqs.out", "r")
 outputfile.write("ip           country      address              requests \n" )
@@ -16,7 +18,7 @@ if numOfIps > 0:
                 if match is not None:
                     singleCountry = match.country
                 try:
-                    singleAddress = socket.gethostbyaddr(singleIp)[0]
+                    singleAddress = asndb.lookup(singleIp)[0]
 
                 except socket.error:
                     singleAddress = "unknown"
@@ -24,7 +26,7 @@ if numOfIps > 0:
                 if singleCountry is None:
                     singleCountry = "unknown"
 
-                outputfile.write(singleIp + " " + singleCountry + " " + singleAddress + " " +singleReq + "\n")
+                outputfile.write(singleIp + " " + singleCountry + " " + str(singleAddress) + " " +singleReq + "\n")
 
             count = count + 1
             if count>numOfIps:

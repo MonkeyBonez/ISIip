@@ -1,5 +1,8 @@
 from collections import OrderedDict
 from operator import itemgetter
+from ipwhois import IPWhois
+from ipwhois.net import Net
+from ipwhois.asn import ASNOrigin
 
 inputfile = open("list.txt", "r")
 countryFrequency = {}
@@ -8,12 +11,17 @@ asnFrequency = {}
 asnRequestFrequency={}
 count = 0
 next(inputfile)
+
 for line in inputfile:
     ip = line.split()[0]
     country = line.split()[1]
     asn = line.split()[2]
     requests = int(line.split()[3])
     count += 1
+
+    # obj = IPWhois(ip)
+    # res = obj.lookup_whois()
+    # print res
 
     if country not in countryFrequency:
         countryFrequency[country] = 0
@@ -49,6 +57,17 @@ print "\n\t% Top ASN in top 10000"
 for asn in asnFrequency:
     print asn + " " , float(asnFrequency[asn])/count
 
+net = Net('2001:43f8:7b0::')
+obj = ASNOrigin(net)
+
+count = 0
 print "\n\t% Top ASN requests in top 10000"
 for asn in asnRequestFrequency:
+    if count > len(asnRequestFrequency) - 20:
+        results = obj.lookup(asn)
+        try:
+            print results['nets'][0]['description']
+        except (ValueError,IndexError):
+            print 'N/A'
     print asn + " " , float(asnRequestFrequency[asn])/sum(asnRequestFrequency.values())
+    count += 1

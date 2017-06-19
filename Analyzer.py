@@ -45,29 +45,29 @@ countryRequestFrequency = OrderedDict(sorted(countryRequestFrequency.items(), ke
 asnFrequency = OrderedDict(sorted(asnFrequency.items(), key=itemgetter(1)))
 asnRequestFrequency = OrderedDict(sorted(asnRequestFrequency.items(), key=itemgetter(1)))
 
-print "\n\t% Country IP in top 10000"
+print ("\n\t% Country IP in top 10000")
 for country in countryFrequency:
-    print country + " " , float(countryFrequency[country])/count
+    print (country + " " , float(countryFrequency[country])/count)
 
-print "\n\t% Top country requests in top 10000"
+print ("\n\t% Top country requests in top 10000")
 for country in countryRequestFrequency:
-    print country + " " , float(countryRequestFrequency[country])/sum(countryRequestFrequency.values())
+    print (country + " " , float(countryRequestFrequency[country])/sum(countryRequestFrequency.values()))
 
-print "\n\t% Top ASN in top 10000"
+print ("\n\t% Top ASN in top 10000")
 for asn in asnFrequency:
-    print asn + " " , float(asnFrequency[asn])/count
+    print (asn + " " , float(asnFrequency[asn])/count)
 
 net = Net('2001:43f8:7b0::')
 obj = ASNOrigin(net)
 
 count = 0
-print "\n\t% Top ASN requests in top 10000"
+print ("\n\t% Top ASN requests in top 10000")
 for asn in asnRequestFrequency:
     if count > len(asnRequestFrequency) - 20:
         results = obj.lookup(asn)
         try:
-            print results['nets'][0]['description']
+            print (results['nets'][0]['description'])
         except (ValueError,IndexError):
-            print 'N/A'
-    print asn + " " , float(asnRequestFrequency[asn])/sum(asnRequestFrequency.values())
+            print ('N/A')
+    print (asn + " " , float(asnRequestFrequency[asn])/sum(asnRequestFrequency.values()))
     count += 1

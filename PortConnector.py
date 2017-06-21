@@ -15,6 +15,7 @@ def ipPortConnector (address, port):
         print ("Connection to %s on port %s failed" % (address, port))
 
 for line in inputfile:
+    s = socket.socket()
     count+= 1
     ip = line.split()[0]
     ipPortConnector(ip,DNS_PORT)

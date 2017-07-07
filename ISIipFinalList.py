@@ -4,7 +4,7 @@ import pyasn
 asndb = pyasn.pyasn('ipasn_db')
 outputfile = open("list.txt", "w")
 inputfile = open("reqs.out", "r")
-outputfile.write("ip           country      address              requests \n" )
+outputfile.write("ip         country  ASN  requests \n" )
 count = 1
 numOfIps = input('Enter how many abnormally-acting ips you would like to get the information of:')
 if numOfIps > 0:
@@ -43,7 +43,7 @@ else:
                 singleCountry = "unknown"
 
             try:
-                singleAddress = socket.gethostbyaddr(singleIp)[0]
+                singleAddress = asndb.lookup(singleIp)[0]
 
             except socket.error:
                 singleAddress = "unknown"
